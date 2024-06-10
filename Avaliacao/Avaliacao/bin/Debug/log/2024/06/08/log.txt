@@ -1,0 +1,61 @@
+[2024-06-08 22:28:19] Npgsql.PostgresException (0x80004005): 42883: operador não existe: @ character varying
+
+POSITION: 103
+   em Npgsql.Internal.NpgsqlConnector.<ReadMessageLong>d__231.MoveNext()
+--- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
+   em System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   em System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   em System.Threading.Tasks.ValueTask`1.get_Result()
+   em Npgsql.NpgsqlDataReader.<NextResult>d__52.MoveNext()
+--- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
+   em System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   em Npgsql.NpgsqlDataReader.<NextResult>d__52.MoveNext()
+--- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
+   em System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   em System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   em Npgsql.NpgsqlDataReader.NextResult()
+   em Npgsql.NpgsqlCommand.<ExecuteReader>d__119.MoveNext()
+--- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
+   em System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   em Npgsql.NpgsqlCommand.<ExecuteReader>d__119.MoveNext()
+--- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
+   em System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   em System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   em Npgsql.NpgsqlCommand.<ExecuteScalar>d__110.MoveNext()
+--- Fim do rastreamento de pilha do local anterior onde a exceção foi gerada ---
+   em System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   em System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   em Npgsql.NpgsqlCommand.ExecuteScalar()
+   em Avaliacao.Program.UserExists(String email, String uuid)
+  Exception data:
+    Severity: ERRO
+    SqlState: 42883
+    MessageText: operador não existe: @ character varying
+    Hint: Nenhum operador corresponde ao nome e tipo de dados do argumento fornecido. Talvez seja necessário adicionar uma conversão de tipo de dados explícita.
+    Position: 103
+    File: parse_oper.c
+    Line: 656
+    Routine: op_error
+[2024-06-08 22:53:15] 1 - lazykoala861 - mathias.bohm@example.com
+[2024-06-08 22:53:18] 2 - whitewolf629 - mercedes.prieto@example.com
+[2024-06-08 22:53:20] 3 - smallgoose227 - margot.martinez@example.com
+[2024-06-08 23:43:25] 2 - whitewolf629 - mercedes.prieto@example.com
+[2024-06-08 23:43:35] 3 - smallgoose227 - margot.martinez@example.com
+[2024-06-08 23:43:38] 4 - goldenlion411 - sadhil.bhat@example.com
+[2024-06-08 23:43:39] 5 - tinyfrog835 - emilio.michel@example.com
+[2024-06-08 23:43:41] 6 - bluebird190 - hadia.roijakkers@example.com
+[2024-06-08 23:43:42] 7 - beautifulbird228 - rasmus.rasmussen@example.com
+[2024-06-08 23:43:47] 8 - smallleopard915 - terri.walker@example.com
+[2024-06-08 23:43:47] 9 - organicfish906 - eugenia.ibarra@example.com
+[2024-06-08 23:43:47] 10 - lazyladybug875 - yehudi.caldeira@example.com
+[2024-06-08 23:43:47] 1 - lazykoala861 - mathias.bohm@example.com
+[2024-06-08 23:43:47] 11 - whitetiger820 - catalina.galvan@example.com
+[2024-06-08 23:43:47] 12 - lazycat948 - elya.girard@example.com
+[2024-06-08 23:43:47] 13 - brownleopard234 - fitan.rao@example.com
+[2024-06-08 23:43:47] 14 - goldenelephant610 - michelle.vasquez@example.com
+[2024-06-08 23:43:47] 15 - crazykoala596 - rose.roberts@example.com
+[2024-06-08 23:43:47] 16 - orangebutterfly539 - anne.romero@example.com
+[2024-06-08 23:43:47] 17 - goldenostrich142 - irma.lira@example.com
+[2024-06-08 23:43:47] 18 - brownzebra315 - chana.bah@example.com
+[2024-06-08 23:43:47] 19 - goldenfish381 - frederick.williams@example.com
+[2024-06-08 23:43:47] 20 - crazydog831 - hunter.mitchelle@example.com

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Data</title>
+    <style>
+      /* Estilos do modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .password-input {
+        position: relative;
+      }
+
+      #toggle-password {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      #toggle-password img {
+        width: 20px;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>User Data</h1>
+    <table id="user-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Action</th>
+          <!-- Adicionado para a coluna de ação -->
+        </tr>
+      </thead>
+      <tbody id="user-table-body">
+        <!-- User data will be inserted here -->
+      </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Edit User</h2>
+        <input type="hidden" id="modal-user-id" />
+        <label for="modal-user-name">Name:</label>
+        <input type="text" id="modal-user-firstname" /><br />
+        <label for="modal-user-name">Last Name:</label>
+        <input type="text" id="modal-user-lastname" /><br />
+        <label for="modal-user-email">Email:</label>
+        <input type="email" id="modal-user-email" /><br />
+        <label for="modal-user-gender">Gender:</label>
+        <input type="text" id="modal-user-gender" /><br />
+        <label for="modal-user-street-number">Street Number:</label>
+        <input type="text" id="modal-user-street-number" /><br />
+        <label for="modal-user-street-name">Street Name:</label>
+        <input type="text" id="modal-user-street-name" /><br />
+        <label for="modal-user-city">City:</label>
+        <input type="text" id="modal-user-city" /><br />
+        <label for="modal-user-state">State:</label>
+        <input type="text" id="modal-user-state" /><br />
+        <label for="modal-user-country">Country:</label>
+        <input type="text" id="modal-user-country" /><br />
+        <label for="modal-user-postal-code">Postal Code:</label>
+        <input type="text" id="modal-user-postal-code" /><br />
+        <label for="modal-user-login-uuid">Login UUID:</label>
+        <input disabled type="tex" id="modal-user-login-uuid" /><br />
+        <label for="modal-user-login-username">Login Username:</label>
+        <input type="text" id="modal-user-login-username" /><br />
+        <label for="modal-user-login-password">Login Password:</label>
+        <div class="password-input">
+          <input type="password" id="modal-user-login-password" />
+          <button type="button" id="toggle-password">
+            <img
+              id="password-icon"
+              src="eye-closed.svg"
+              alt="Toggle Password Visibility"
+            />
+          </button>
+        </div>
+        <label for="modal-user-phone">Phone:</label>
+        <input type="text" id="modal-user-phone" /><br />
+        <label for="modal-user-cell">Cell:</label>
+        <input type="text" id="modal-user-cell" /><br />
+        <button onclick="updateModalUser()">Update</button>
+      </div>
+    </div>
+
+    <script>
+      /* Tratar ocultar password */
+      const togglePassword = document.getElementById('toggle-password')
+      const passwordInput = document.getElementById('modal-user-login-password')
+      const passwordIcon = document.getElementById('password-icon')
+
+      togglePassword.addEventListener('click', function () {
+        const type =
+          passwordInput.getAttribute('type') === 'password'
+            ? 'text'
+            : 'password'
+        passwordInput.setAttribute('type', type)
+
+        passwordIcon.src =
+          type === 'password' ? 'eye-closed.svg' : 'eye-open.svg'
+      })
+
+      document.addEventListener('DOMContentLoaded', function () {
+        fetch('http://localhost:3000/users')
+          .then(response => response.json())
+          .then(data => {
+            const tableBody = document.getElementById('user-table-body')
+            data.forEach(user => {
+              const row = document.createElement('tr')
+              row.innerHTML = `
+              <td>${user.id}</td>
+              <td id="firstname-${user.id}">${user.name_firstname}</td>
+              <td id="lastname-${user.id}">${user.name_lastname}</td>
+              <td id="email-${user.id}">${user.email}</td>
+              <td id="gender-${user.id}">${user.gender}</td>
+              <td style="display: none;" id="street-number-${user.id}">${user.location_street_number}</td>
+              <td style="display: none;" id="street-name-${user.id}">${user.location_street_name}</td>
+              <td style="display: none;" id="city-${user.id}">${user.location_city}</td>
+              <td style="display: none;" id="state-${user.id}">${user.location_state}</td>
+              <td style="display: none;" id="country-${user.id}">${user.location_country}</td>
+              <td style="display: none;" id="postal-code-${user.id}">${user.location_pastcode}</td>
+              <td style="display: none;" id="login-uuid-${user.id}">${user.login_uuid}</td>
+              <td style="display: none;" id="login-username-${user.id}">${user.login_username}</td>
+              <td style="display: none;" id="login-password-${user.id}">${user.login_password}</td>
+              <td id="phone-${user.id}">${user.phone}</td>
+              <td id="cell-${user.id}">${user.cell}</td>
+              <td><button onclick="openModal(${user.id})">Edit</button></td>
+            `
+              tableBody.appendChild(row)
+            })
+          })
+          .catch(error => console.error('Error fetching user data:', error))
+      })
+
+      // Função para abrir o modal com os dados do usuário
+      function openModal(id) {
+        const modal = document.getElementById('myModal')
+
+        // Preencher os campos do modal com os dados do usuário
+        document.getElementById('modal-user-firstname').value =
+          document.getElementById(`firstname-${id}`).textContent
+        document.getElementById('modal-user-lastname').value =
+          document.getElementById(`lastname-${id}`).textContent
+        document.getElementById('modal-user-email').value =
+          document.getElementById(`email-${id}`).textContent
+        document.getElementById('modal-user-id').value = id
+
+        // Adicionar os campos adicionais que estão faltando
+        document.getElementById('modal-user-gender').value =
+          document.getElementById(`gender-${id}`).textContent
+        document.getElementById('modal-user-street-number').value =
+          document.getElementById(`street-number-${id}`).textContent
+        document.getElementById('modal-user-street-name').value =
+          document.getElementById(`street-name-${id}`).textContent
+        document.getElementById('modal-user-city').value =
+          document.getElementById(`city-${id}`).textContent
+        document.getElementById('modal-user-state').value =
+          document.getElementById(`state-${id}`).textContent
+        document.getElementById('modal-user-country').value =
+          document.getElementById(`country-${id}`).textContent
+        document.getElementById('modal-user-postal-code').value =
+          document.getElementById(`postal-code-${id}`).textContent
+        document.getElementById('modal-user-login-uuid').value =
+          document.getElementById(`login-uuid-${id}`).textContent
+        document.getElementById('modal-user-login-username').value =
+          document.getElementById(`login-username-${id}`).textContent
+        document.getElementById('modal-user-login-password').value =
+          document.getElementById(`login-password-${id}`).textContent
+        document.getElementById('modal-user-phone').value =
+          document.getElementById(`phone-${id}`).textContent
+        document.getElementById('modal-user-cell').value =
+          document.getElementById(`cell-${id}`).textContent
+
+        modal.style.display = 'block'
+      }
+
+      // Fechar o modal ao clicar no botão fechar (X)
+      document.querySelector('.close').addEventListener('click', function () {
+        document.getElementById('myModal').style.display = 'none'
+      })
+
+      // Fechar o modal ao clicar fora dele
+      window.addEventListener('click', function (event) {
+        const modal = document.getElementById('myModal')
+        if (event.target == modal) {
+          modal.style.display = 'none'
+        }
+      })
+
+      // Função para atualizar o usuário do modal
+      function updateModalUser() {
+        const userId = document.getElementById('modal-user-id').value
+        const newFirstName = document.getElementById(
+          'modal-user-firstname'
+        ).value
+        const newLastName = document.getElementById('modal-user-lastname').value
+        const newEmail = document.getElementById('modal-user-email').value
+        const newGender = document.getElementById('modal-user-gender').value
+        const newStreetNumber = document.getElementById(
+          'modal-user-street-number'
+        ).value
+        const newStreetName = document.getElementById(
+          'modal-user-street-name'
+        ).value
+        const newCity = document.getElementById('modal-user-city').value
+        const newState = document.getElementById('modal-user-state').value
+        const newCountry = document.getElementById('modal-user-country').value
+        const newPostalCode = document.getElementById(
+          'modal-user-postal-code'
+        ).value
+        const newLoginUsername = document.getElementById(
+          'modal-user-login-username'
+        ).value
+        const newLoginPassword = document.getElementById(
+          'modal-user-login-password'
+        ).value
+        const newPhone = document.getElementById('modal-user-phone').value
+        const newCell = document.getElementById('modal-user-cell').value
+
+        fetch(`http://localhost:3000/updateuser/${userId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            Name_firstName: newFirstName,
+            Name_LastName: newLastName,
+            email: newEmail,
+            gender: newGender,
+            Location_Street_Number: newStreetNumber,
+            Location_Street_Name: newStreetName,
+            Location_City: newCity,
+            Location_State: newState,
+            Location_Country: newCountry,
+            Location_Pastcode: newPostalCode,
+            Login_Username: newLoginUsername,
+            Login_Password: newLoginPassword,
+            phone: newPhone,
+            cell: newCell
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('User updated:', data)
+            alert('User updated successfully!')
+            document.getElementById('myModal').style.display = 'none'
+            window.location.reload()
+          })
+          .catch(error => console.error('Error updating user:', error))
+      }
+    </script>
+  </body>
+</html>
